@@ -1,4 +1,4 @@
-console.log("Hello World");
+let humanScore = 0, computerScore = 0;
 
 function getComputerChoice(){
     return Math.floor(Math.random() * 3);
