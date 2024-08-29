@@ -1,4 +1,15 @@
-let humanScore = 0, computerScore = 0;
+let playerScore = 0, computerScore = 0;
+
+const buttons = document.querySelector('.buttons');
+const roundResults = document.querySelector('.round-results');
+const playerTally = document.querySelector('.player-score');
+const computerTally = document.querySelector('.computer-score');
+
+
+buttons.addEventListener('click', (event) => {
+    let playerChoice = event.target.id;console.log(playerChoice);
+    playRound(playerChoice, getComputerChoice());
+});
 
 function getComputerChoice(){
     let random = Math.floor(Math.random() * 3);
@@ -20,45 +31,41 @@ function getHumanChoice(){
 
 function playRound(humanChoice = "", computerChoice){
     let human = humanChoice.toLowerCase();
-    let computer = computerChoice; //0 = rock, 1 = paper, 2 = scissors
+    let computer = computerChoice; 
     
     if((human == 'rock' && computer == 'paper') 
         || (human == 'paper' && computer == 'scissors') 
         || (human == 'scissors' && computer == 'rock')){
-        console.log(`You lose this round! ${computer} beats ${human}`);
+        roundResults.textContent = `You lose this round! ${computer} beats ${human}`;
         computerScore++;
     }
 
     if((human == 'rock' && computer == 'scissors') 
         || (human == 'paper' && computer == 'rock') 
         || (human == 'scissors' && computer == 'paper')){
-        console.log(`You win this round! ${human} beats ${computer}`);
-        humanScore++;
+        roundResults.textContent = `You win this round! ${human} beats ${computer}`;
+        playerScore++;
     }
 
     if(human == computer){
-        console.log(`DRAW`);
+        roundResults.textContent = `DRAW`;
     }
+
+    if(playerScore === 5){
+        roundResults.textContent = `YOU WIN! ${playerScore} - ${computerScore}.`;
+        computerScore = 0;
+        playerScore = 0;
+    }
+
+    if(computerScore === 5){
+        roundResults.textContent = `YOU LOSE! ${playerScore} - ${computerScore}.`;
+        computerScore = 0;
+        playerScore = 0;
+    }
+
+    playerTally.textContent = playerScore;
+    computerTally.textContent = computerScore;
 }
 
-function playGame(){
-
-    for(let rounds = 0; rounds < 5; rounds++){
-        const humanSelection = getHumanChoice();
-        const computerSelection = getComputerChoice();
-
-        playRound(humanSelection, computerSelection);
-        console.log(`Current score after round ${rounds + 1}: Human - ${humanScore} Computer - ${computerScore}`)
-    }
-
-    if(humanScore > computerScore){
-        console.log("YOU WON!");
-    } else {
-        console.log("You really let a computer beat you?");
-    }
-
-}
-
-playGame();
 
 
